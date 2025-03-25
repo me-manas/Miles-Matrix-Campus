@@ -43,6 +43,9 @@ class Main extends StatelessWidget {
                   getPages: AppRoutes.routes,
                   theme: ThemeData(
                     scaffoldBackgroundColor: AppColors.primary01,
+                    appBarTheme: AppBarTheme(
+                      backgroundColor: AppColors.extra05,
+                    ),
                   ),
                 );
               },

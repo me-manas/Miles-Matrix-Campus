@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_campus/infrastructure/shared_ui/bottomsheet/custom_dropdown_items_bottomsheet.dart';
 import 'package:matrix_campus/infrastructure/shared_ui/button/custom_button.dart';
 import 'package:matrix_campus/infrastructure/shared_ui/chip/custom_chip.dart';
 import 'package:matrix_campus/infrastructure/shared_ui/dropdown/custom_dropdown.dart';
@@ -8,6 +9,7 @@ import 'package:matrix_campus/infrastructure/theme/app_colors.dart';
 import 'package:matrix_campus/infrastructure/theme/app_text_styles.dart';
 import 'package:matrix_campus/infrastructure/utils/constants/string_constants.dart';
 import 'package:matrix_campus/infrastructure/utils/enums/app_enums.dart';
+import 'package:matrix_campus/infrastructure/utils/helpers/dev_logger.dart';
 import 'package:matrix_campus/modules/onboarding/domain/onboarding_controller.dart';
 
 class OnboardingStage2 extends StatelessWidget {
@@ -31,7 +33,7 @@ class OnboardingStage2 extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 7.w),
           child: Obx(() {
             final bool isEnrolled =
-                _controller.universityEnrollmentType.value ==
+                _controller.universityEnrollmentType ==
                 UniversityEnrollmentType.enrolled;
             return Row(
               children: [
@@ -81,7 +83,7 @@ class OnboardingStage2 extends StatelessWidget {
         24.verticalSpace,
 
         Obx(() {
-          return _controller.universityEnrollmentType.value ==
+          return _controller.universityEnrollmentType ==
                   UniversityEnrollmentType.yetToEnroll
               ? Padding(
                 padding: EdgeInsets.only(bottom: 24.h),
@@ -93,10 +95,75 @@ class OnboardingStage2 extends StatelessWidget {
               : const SizedBox.shrink();
         }),
 
-        CustomDropdown(label: StringConstants.selectUniversity, onTap: () {}),
+        Obx(() {
+          return CustomDropdown(
+            label:
+                _controller.selectedUniversity ??
+                StringConstants.selectUniversity,
+            isRequired: _controller.selectedUniversity == null,
+            labelStyle:
+                _controller.selectedUniversity != null
+                    ? AppTextStyles.body3Regular14(color: AppColors.text01)
+                    : null,
+            onTap: () {
+              Get.bottomSheet(
+                CustomDropdownItemsBottomsheet(
+                  label: StringConstants.selectUniversity,
+                  height: 240.h,
+                  onSelectItem: (selectedItem) {
+                    devLogger(
+                      message:
+                          'Selected University: ${selectedItem.toString()}',
+                    );
+                    _controller.selectUniversity(selectedItem.title);
+                    Get.back();
+                  },
+                  //TODO: update the list based on API response
+                  items: [
+                    BottomSheetItemModel(title: 'Male'),
+                    BottomSheetItemModel(title: 'Female'),
+                  ],
+                ),
+                backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                isScrollControlled: true,
+              );
+            },
+          );
+        }),
         24.verticalSpace,
 
-        CustomDropdown(label: StringConstants.selectCampus, onTap: () {}),
+        Obx(() {
+          return CustomDropdown(
+            label: _controller.selectedCampus ?? StringConstants.selectCampus,
+            isRequired: _controller.selectedCampus == null,
+            labelStyle:
+                _controller.selectedCampus != null
+                    ? AppTextStyles.body3Regular14(color: AppColors.text01)
+                    : null,
+            onTap: () {
+              Get.bottomSheet(
+                CustomDropdownItemsBottomsheet(
+                  label: StringConstants.selectCampus,
+                  height: 240.h,
+                  onSelectItem: (selectedItem) {
+                    devLogger(
+                      message: 'Selected Campus: ${selectedItem.toString()}',
+                    );
+                    _controller.selectCampus(selectedItem.title);
+                    Get.back();
+                  },
+                  //TODO: update the list based on API response
+                  items: [
+                    BottomSheetItemModel(title: 'Male'),
+                    BottomSheetItemModel(title: 'Female'),
+                  ],
+                ),
+                backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                isScrollControlled: true,
+              );
+            },
+          );
+        }),
         48.verticalSpace,
 
         CustomButton(

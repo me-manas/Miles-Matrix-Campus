@@ -7,9 +7,11 @@ import 'package:matrix_campus/infrastructure/utils/helpers/image_loader.dart';
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hideLeading;
   final bool hideActions;
+  final Color? backgroundColor;
   const DashboardAppBar({
     this.hideLeading = false,
     this.hideActions = false,
+    this.backgroundColor,
     super.key,
   });
 
@@ -27,7 +29,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       child: AppBar(
-        backgroundColor: AppColors.extra05,
+        backgroundColor: backgroundColor,
         centerTitle: true,
         actionsPadding: EdgeInsets.only(right: 36.w),
         leading:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:matrix_campus/infrastructure/shared_ui/bottomsheet/custom_dropdown_items_bottomsheet.dart';
 import 'package:matrix_campus/infrastructure/shared_ui/button/custom_button.dart';
 import 'package:matrix_campus/infrastructure/shared_ui/dropdown/custom_dropdown.dart';
 import 'package:matrix_campus/infrastructure/shared_ui/textfield/custom_textfield_with_label.dart';
@@ -9,6 +10,7 @@ import 'package:matrix_campus/infrastructure/theme/app_colors.dart';
 import 'package:matrix_campus/infrastructure/theme/app_text_styles.dart';
 import 'package:matrix_campus/infrastructure/utils/constants/string_constants.dart';
 import 'package:matrix_campus/infrastructure/utils/extensions/string_extensions.dart';
+import 'package:matrix_campus/infrastructure/utils/helpers/dev_logger.dart';
 import 'package:matrix_campus/modules/onboarding/domain/onboarding_controller.dart';
 
 class OnboardingStage1 extends StatelessWidget {
@@ -49,7 +51,37 @@ class OnboardingStage1 extends StatelessWidget {
         ),
         20.verticalSpace,
 
-        CustomDropdown(label: StringConstants.gender, onTap: () {}),
+        Obx(() {
+          return CustomDropdown(
+            label: _controller.selectedGender ?? StringConstants.gender,
+            isRequired: _controller.selectedGender == null,
+            labelStyle:
+                _controller.selectedGender != null
+                    ? AppTextStyles.body3Regular14(color: AppColors.text01)
+                    : null,
+            onTap: () {
+              Get.bottomSheet(
+                CustomDropdownItemsBottomsheet(
+                  label: 'Select your gender',
+                  height: 240.h,
+                  onSelectItem: (selectedItem) {
+                    devLogger(
+                      message: 'Selected Item: ${selectedItem.toString()}',
+                    );
+                    _controller.selectGender(selectedItem.title);
+                    Get.back();
+                  },
+                  items: [
+                    BottomSheetItemModel(title: 'Male'),
+                    BottomSheetItemModel(title: 'Female'),
+                  ],
+                ),
+                backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                isScrollControlled: true,
+              );
+            },
+          );
+        }),
         48.verticalSpace,
 
         CustomButton(

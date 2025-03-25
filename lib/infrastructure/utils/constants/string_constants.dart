@@ -28,6 +28,9 @@ class StringConstants {
   //------------ONBOARDING------------
   static const name = 'Name';
   static const gender = 'Gender';
+  static const selectYourGender = 'Select Your Gender';
+  static const selectYourUniversity = 'Select Your University';
+  static const selectYourCampus = 'Select Your Campus';
   static const keepGoing = 'Keep Going';
   static const matrixian = 'Matrixian';
   static const selectUniversity = 'Select University';
