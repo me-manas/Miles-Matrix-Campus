@@ -70,7 +70,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     8.verticalSpace,
                     Obx(() {
                       return Text(
-                        _controller.currentIndex.value == 1
+                        _controller.currentIndex == 1
                             ? StringConstants.collegeJourneyProgress
                             : StringConstants.timeToIntroduce,
                         textAlign: TextAlign.left,
@@ -125,7 +125,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       padding: EdgeInsets.only(bottom: 0.h),
                       child: Obx(() {
                         return CustomPageIndicator(
-                          currentIndex: _controller.currentIndex.value,
+                          currentIndex: _controller.currentIndex,
                         );
                       }),
                     ),

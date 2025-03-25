@@ -12,6 +12,7 @@ class CustomDropdown extends StatelessWidget {
   final Widget? dropdownIcon;
   final Color? borderColor;
   final VoidCallback onTap;
+  final TextStyle? labelStyle;
   const CustomDropdown({
     required this.label,
     required this.onTap,
@@ -21,6 +22,7 @@ class CustomDropdown extends StatelessWidget {
     this.dropdownIcon,
     this.borderRadius,
     this.borderColor,
+    this.labelStyle,
     super.key,
   });
 
@@ -31,7 +33,7 @@ class CustomDropdown extends StatelessWidget {
       child: Container(
         height: height ?? 36.h,
         width: width ?? double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.5.h),
         decoration: BoxDecoration(
           color: AppColors.extra08,
           borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 24.r)),
@@ -43,7 +45,9 @@ class CustomDropdown extends StatelessWidget {
           children: [
             Text(
               label,
-              style: AppTextStyles.body4Regular12(color: AppColors.text03),
+              style:
+                  labelStyle ??
+                  AppTextStyles.body4Regular12(color: AppColors.text03),
             ),
             if (isRequired)
               Text(
